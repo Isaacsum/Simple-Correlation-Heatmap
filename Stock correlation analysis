@@ -1,0 +1,25 @@
+import yfinance as yf
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from datetime import datetime
+
+# Define the date range and symbols
+start = datetime(2017, 1, 1)
+symbols_list = ['AAPL','X', 'AMZN', 'GOOGL', 'GE', 'TSLA', 'IBM', 'PYPL']
+
+# Download data using yfinance
+data = yf.download(symbols_list, start=start)['Close']
+
+# Drop any rows with missing values (optional, or you can fill them)
+data.dropna(inplace=True)
+
+# Correlation matrix
+corr_matrix = data.corr()
+
+# Plot
+plt.figure(figsize=(12, 8))
+sns.heatmap(corr_matrix, annot=True, cmap='RdYlGn')
+plt.title("Stock Price Correlation Heatmap")
+plt.show()
